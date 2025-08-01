@@ -8,10 +8,9 @@ import csv
 import time
 import re
 
-# 🔍 Get user input for the product to search
 search_term = input("🔍 Enter AJIO product search term (e.g., sneakers for men): ").strip().replace(" ", "%20")
 base_url = "https://www.ajio.com"
-max_pages = 3  # You can change this as needed
+max_pages = 3 
 
 # 🚀 Set up Chrome browser options
 options = webdriver.ChromeOptions()
@@ -26,7 +25,6 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(["Name", "Original Price", "Discount %", "Product URL", "Image URL"])
 
-    # 🔁 Scrape multiple pages
     for page in range(1, max_pages + 1):
         url = f"https://www.ajio.com/search/?text={search_term}&page={page}"
         print(f"🔄 Scraping page {page}: {url}")
@@ -83,6 +81,5 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as file:
 
         print(f"✅ Page {page} scraped.")
 
-# 🛑 Done
 driver.quit()
 print(f"\n✅ Scraping complete. Data saved to '{csv_filename}'")
