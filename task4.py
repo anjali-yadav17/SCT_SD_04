@@ -24,7 +24,7 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), opti
 csv_filename = f"{search_term.replace('%20', '_')}_ajio_products.csv"
 with open(csv_filename, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(["Name", "Original Price", "Rating", "Product URL", "Image URL"])
+    writer.writerow(["Name", "Original Price", "Discount %", "Product URL", "Image URL"])
 
     # 🔁 Scrape multiple pages
     for page in range(1, max_pages + 1):
@@ -63,9 +63,11 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as file:
                 original_price = "N/A"
 
             try:
-                rating = product.find_element(By.CLASS_NAME, 'rating').text
+                discount = product.find_element(By.CLASS_NAME, 'discount').text
+                discount_percentage_match = re.search(r'(\d+)%', discount)
+                discount_percent = discount_percentage_match.group(1) + "%" if discount_percentage_match else "N/A"
             except:
-                rating = "N/A"
+                discount_percent = "N/A"
 
             try:
                 product_url = product.find_element(By.TAG_NAME, "a").get_attribute("href")
@@ -77,7 +79,7 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as file:
             except:
                 image_url = "N/A"
 
-            writer.writerow([name, original_price, rating, product_url, image_url])
+            writer.writerow([name, original_price, discount_percent, product_url, image_url])
 
         print(f"✅ Page {page} scraped.")
 
