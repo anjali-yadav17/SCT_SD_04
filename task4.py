@@ -10,7 +10,7 @@ import re
 
 search_term = input("🔍 Enter AJIO product search term (e.g., sneakers for men): ").strip().replace(" ", "%20")
 base_url = "https://www.ajio.com"
-max_pages = 3 
+max_pages = 2 # ⏭️ Adjust this to scrape more pages
 
 # 🚀 Set up Chrome browser options
 options = webdriver.ChromeOptions()
